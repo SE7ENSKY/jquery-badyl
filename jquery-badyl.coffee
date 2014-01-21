@@ -28,7 +28,6 @@ plugin = ($) ->
 				position: 'absolute', top: '', bottom: ''
 
 		constructor: (@el, config) ->
-			console.log "CREATE NEW"
 			@$el = $ @el
 			@$el.data "badyl", @
 			@config = $.extend {}, @defaults, config
@@ -38,7 +37,7 @@ plugin = ($) ->
 			@prevWindowScrollTop = 0
 			@badylize()
 
-			(window.badyls or= []).push @
+			# (window.badyls or= []).push @
 
 		destroy: ->
 			@debadylize()
