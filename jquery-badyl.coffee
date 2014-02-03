@@ -1,11 +1,11 @@
 ###
 @name jquery-badyl
 @description Meet Badyl – bootstrap affix-like wheel reinvent.
-@version 1.7.42
+@version 1.7.53
 @author Se7enSky studio <info@se7ensky.com>
 ###
 
-###! jquery-badyl 1.7.42 http://github.com/Se7enSky/jquery-badyl###
+###! jquery-badyl 1.7.53 http://github.com/Se7enSky/jquery-badyl###
 
 plugin = ($) ->
 
@@ -34,7 +34,9 @@ plugin = ($) ->
 			@state = null
 			@badylized = no
 			@$refEl = $(@$el.attr "data-badyl-ref-el")
+			@$originalParent = @$el.parent()
 			@prevWindowScrollTop = 0
+			@smartResizeTimeout = null
 			@badylize()
 
 			# (window.badyls or= []).push @
@@ -44,13 +46,12 @@ plugin = ($) ->
 
 		badylize: ->
 			return if @badylized
-			@originalWidth = @$el.width()
+			@containerInnerWidth = @measureInnerWidth @$originalParent
 			@originalHeight = @$el.height()
 
 			@badylInnerHeight = @originalHeight + @config.offset * 2
 
-			windowHeight = $(window).height()
-			return if @originalHeight is 0
+			# return if @originalHeight is 0
 
 			@badylHeight = @$refEl.height() + @config.offset * 2
 
@@ -61,7 +62,7 @@ plugin = ($) ->
 					margin: "-#{@config.offset}px 0"
 				.append @$badylInner = $("""<div>""")
 					.css
-						width: "#{@originalWidth}px"
+						width: "#{@containerInnerWidth}px"
 						height: "#{@badylInnerHeight}px"
 						padding: "#{@config.offset}px 0"
 					.append @$originalElement = @$el.clone()
@@ -76,29 +77,56 @@ plugin = ($) ->
 			
 			@badylized = yes
 
+			@$originalElement.trigger "badylized"
+
 		rebadylize: ->
+			return unless @badylized
+			clearTimeout @smartResizeTimeout if @smartResizeTimeout
+
+			@containerInnerWidth = @measureInnerWidth @$originalParent
+			# return if @originalHeight is 0
 			@rebadylizeFromState = @state
-			@debadylize()
-			@badylize()
+			@badylized = no
+			@state = null
+
+			@badylHeight = @$refEl.height() + @config.offset * 2
+
+			@$badylContainer.css
+				position: 'relative'
+				height: "#{@badylHeight}px"
+				margin: "-#{@config.offset}px 0"
+			@$badylInner.css
+				width: "#{@containerInnerWidth}px"
+				padding: "#{@config.offset}px 0"
+			@originalHeight = @$originalElement.height()
+			@badylInnerHeight = @originalHeight + @config.offset * 2
+			@$badylInner.css
+				height: "#{@badylInnerHeight}px"
+			@badylOffsetTop = @$badylContainer.offset().top
+			@refreshInnerCss()
+			@badylized = yes
+
+			@$originalElement.trigger "rebadylized"
 
 		debadylize: ->
 			return unless @badylized
+			clearTimeout @smartResizeTimeout if @smartResizeTimeout
 			@unbindEvents()
 			@$badylContainer.replaceWith @$el = @$originalElement
 			@$el.data "badyl", @
 			@badylized = no
 			@state = null
+			@$el.trigger "debadylized"
 
 		bindEvents: ->
 			$(window).on "scroll", @windowScrollHandler = (e) =>
 				@refreshInnerCss()
 			
-			smartResizeTimeout = null
 			$(window).on "resize", @windowResizeHandler = (e) =>
-				clearTimeout smartResizeTimeout if smartResizeTimeout
-				smartResizeTimeout = setTimeout =>
-					@rebadylize()
-					smartResizeTimeout = null
+				clearTimeout @smartResizeTimeout if @smartResizeTimeout
+				@smartResizeTimeout = setTimeout =>
+					@rebadylize() if @badylized
+					@smartResizeTimeout = null
 				, 100
 
 		unbindEvents: ->
@@ -168,6 +196,12 @@ plugin = ($) ->
 			@$badylInner.css @cssSnippets[newState] if @cssSnippets[newState]
 			@$badylInner.css addCss if addCss
 			@state = newState
+
+		measureInnerWidth: ($el) ->
+			$el.append $measureDiv = $("<div>").css display: "block", width: "100%"
+			result = $measureDiv.width()
+			$measureDiv.remove()
+			result
 
 	$.fn.badyl = (method, args...) ->
 		@each ->
