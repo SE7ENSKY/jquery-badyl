@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>jquery-badyl example</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+	<style>
+		* { box-sizing: border-box; }
+		body { font-family: 'Open Sans', sans-serif; margin: 0; padding: 0; }
+		.widget, article, .main-panel, .left-sidebar, .right-sidebar {
+			padding: 20px;
+			margin: 0;
+		}
+		.main-panel {
+			width: 40%;
+			float: left;
+		}
+		.left-sidebar {
+			width: 20%;
+			float: left;
+		}
+		.right-sidebar {
+			width: 20%;
+			float: left;
+		}
+		article {
+			background: #cccccc;
+			/*height: 5000px;*/
+		}
+		.widget {
+			background: #aaaaaa;
+		}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+
+<body>
+
+	<aside class="left-sidebar">
+		<div class="badyl" data-badyl-ref-el=".badyl-ref">
+			<div class="widget">
+				left sidebar<br>
+				left sidebar<br>
+				left sidebar<br>
+				left sidebar<br>
+				left sidebar<br>
+			</div>
+		</div>
+	</aside>
+
+	<div class="main-panel badyl-ref">
+		<article>
+			main article 0<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 5<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 10<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 15<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 20<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 25<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 30<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 5<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 10<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 15<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 20<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 25<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article<br>
+			main article 30<br>
+		</article>
+	</div>
+
+	<aside class="right-sidebar">
+		<div class="badyl" data-badyl-ref-el=".badyl-ref">
+			<div class="widget">
+				right sidebar 0<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 5<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 10<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 15<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 20<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 25<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar<br>
+				right sidebar 30<br>
+			</div>
+		</div>
+	</aside>
+
+	<script src="jquery-badyl.js"></script>
+	<script>
+		$(".badyl").badyl({ offset: 20 })
+	</script>
+</body>
+</html>
