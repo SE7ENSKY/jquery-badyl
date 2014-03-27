@@ -1,11 +1,11 @@
 ###
 @name jquery-badyl
 @description Meet Badyl – bootstrap affix-like wheel reinvent.
-@version 1.7.56
+@version 1.7.57
 @author Se7enSky studio <info@se7ensky.com>
 ###
 
-###! jquery-badyl 1.7.56 http://github.com/Se7enSky/jquery-badyl###
+###! jquery-badyl 1.7.57 http://github.com/Se7enSky/jquery-badyl###
 
 plugin = ($) ->
 
@@ -93,6 +93,7 @@ plugin = ($) ->
 			@badylized = no
 			@state = null
 
+			@$refEl.css height: ""
 			@badylHeight = @$refEl.height() + @config.offset * 2
 
 			@$badylInner.css
