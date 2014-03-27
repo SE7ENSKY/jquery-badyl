@@ -114,6 +114,9 @@
         this.rebadylizeFromState = this.state;
         this.badylized = false;
         this.state = null;
+        this.$refEl.css({
+          height: ""
+        });
         this.badylHeight = this.$refEl.height() + this.config.offset * 2;
         this.$badylInner.css({
           width: "" + this.containerInnerWidth + "px",
