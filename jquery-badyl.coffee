@@ -1,11 +1,11 @@
 ###
 @name jquery-badyl
 @description Meet Badyl – bootstrap affix-like wheel reinvent.
-@version 1.7.57
+@version 1.7.58
 @author Se7enSky studio <info@se7ensky.com>
 ###
 
-###! jquery-badyl 1.7.57 http://github.com/Se7enSky/jquery-badyl###
+###! jquery-badyl 1.7.58 http://github.com/Se7enSky/jquery-badyl###
 
 plugin = ($) ->
 
@@ -13,7 +13,8 @@ plugin = ($) ->
 
 	class Badyl
 		defaults:
-			offset: 0
+			offsetTop: 0
+			offsetBottom: 0
 
 		cssSnippets:
 			top:
@@ -30,6 +31,9 @@ plugin = ($) ->
 		constructor: (@el, config) ->
 			@$el = $ @el
 			@$el.data "badyl", @
+			if config.offset
+				config.offsetTop = config.offset if typeof config.offsetTop is 'undefined'
+				config.offsetBottom = config.offset if typeof config.offsetBottom is 'undefined'
 			@config = $.extend {}, @defaults, config
 			@state = null
 			@badylized = no
@@ -49,26 +53,26 @@ plugin = ($) ->
 			@containerInnerWidth = @measureInnerWidth @$originalParent
 			@originalHeight = @$el.height()
 
-			@badylInnerHeight = @originalHeight + @config.offset * 2
+			@badylInnerHeight = @originalHeight + @config.offsetTop + @config.offsetBottom
 
 			# return if @originalHeight is 0
 
 			@$refEl.css height: ""
-			@badylHeight = @$refEl.height() + @config.offset * 2
+			@badylHeight = @$refEl.height() + @config.offsetTop + @config.offsetBottom
 			if @badylInnerHeight > @badylHeight
 				@$refEl.css height: "#{@badylInnerHeight}px"
-				@badylHeight = @$refEl.height() + @config.offset * 2
+				@badylHeight = @$refEl.height() + @config.offsetTop + @config.offsetBottom
 
 			@$el.replaceWith @$badylContainer = $("""<div>""")
 				.css
 					position: 'relative'
 					height: "#{@badylHeight}px"
-					margin: "-#{@config.offset}px 0"
+					margin: "-#{@config.offsetTop}px 0 -#{@config.offsetBottom}px"
 				.append @$badylInner = $("""<div>""")
 					.css
 						width: "#{@containerInnerWidth}px"
 						height: "#{@badylInnerHeight}px"
-						padding: "#{@config.offset}px 0"
+						padding: "#{@config.offsetTop}px 0 #{@config.offsetBottom}px"
 					.append @$originalElement = @$el.clone()
 
 			@$originalElement.data "badyl", @
@@ -94,22 +98,22 @@ plugin = ($) ->
 			@state = null
 
 			@$refEl.css height: ""
-			@badylHeight = @$refEl.height() + @config.offset * 2
+			@badylHeight = @$refEl.height() + @config.offsetTop + @config.offsetBottom
 
 			@$badylInner.css
 				width: "#{@containerInnerWidth}px"
-				padding: "#{@config.offset}px 0"
+				padding: "#{@config.offsetTop}px 0 #{@config.offsetBottom}px"
 			@originalHeight = @$originalElement.height()
-			@badylInnerHeight = @originalHeight + @config.offset * 2
+			@badylInnerHeight = @originalHeight + @config.offsetTop + @config.offsetBottom
 
 			if @badylInnerHeight > @badylHeight
 				@$refEl.css height: "#{@badylInnerHeight}px"
-				@badylHeight = @$refEl.height() + @config.offset * 2
+				@badylHeight = @$refEl.height() + @config.offsetTop + @config.offsetBottom
 
 			@$badylContainer.css
 				position: 'relative'
 				height: "#{@badylHeight}px"
-				margin: "-#{@config.offset}px 0"
+				margin: "-#{@config.offsetTop}px 0 -#{@config.offsetBottom}px"
 			@$badylInner.css
 				height: "#{@badylInnerHeight}px"
 
