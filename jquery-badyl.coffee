@@ -1,11 +1,11 @@
 ###
 @name jquery-badyl
 @description Meet Badyl – bootstrap affix-like wheel reinvent.
-@version 1.7.58
+@version 1.8.0
 @author Se7enSky studio <info@se7ensky.com>
 ###
 
-###! jquery-badyl 1.7.58 http://github.com/Se7enSky/jquery-badyl###
+###! jquery-badyl 1.8.0 http://github.com/Se7enSky/jquery-badyl###
 
 plugin = ($) ->
 
@@ -50,6 +50,7 @@ plugin = ($) ->
 
 		badylize: ->
 			return if @badylized
+			@$originalElement = @$el
 			@containerInnerWidth = @measureInnerWidth @$originalParent
 			@originalHeight = @$el.height()
 
@@ -63,17 +64,19 @@ plugin = ($) ->
 				@$refEl.css height: "#{@badylInnerHeight}px"
 				@badylHeight = @$refEl.height() + @config.offsetTop + @config.offsetBottom
 
-			@$el.replaceWith @$badylContainer = $("""<div>""")
+			@$el.wrap $("""<div class="badyl__container">""")
 				.css
 					position: 'relative'
 					height: "#{@badylHeight}px"
 					margin: "-#{@config.offsetTop}px 0 -#{@config.offsetBottom}px"
-				.append @$badylInner = $("""<div>""")
-					.css
-						width: "#{@containerInnerWidth}px"
-						height: "#{@badylInnerHeight}px"
-						padding: "#{@config.offsetTop}px 0 #{@config.offsetBottom}px"
-					.append @$originalElement = @$el.clone()
+			@$el.wrap $("""<div class="badyl__inner">""")
+				.css
+					width: "#{@containerInnerWidth}px"
+					height: "#{@badylInnerHeight}px"
+					padding: "#{@config.offsetTop}px 0 #{@config.offsetBottom}px"
+
+			@$badylContainer = @$originalParent.find ".badyl__container"
+			@$badylInner = @$originalParent.find ".badyl__inner"
 
 			@$originalElement.data "badyl", @
 			@$badylContainer.data "badyl", @
@@ -127,7 +130,8 @@ plugin = ($) ->
 			return unless @badylized
 			clearTimeout @smartResizeTimeout if @smartResizeTimeout
 			@unbindEvents()
-			@$badylContainer.replaceWith @$el = @$originalElement
+			@$originalElement.unwrap().unwrap()
+			@$el = @$originalElement
 			@$el.data "badyl", @
 			@badylized = no
 			@state = null
