@@ -1,11 +1,11 @@
 ###
 @name jquery-badyl
 @description Meet Badyl – bootstrap affix-like wheel reinvent.
-@version 1.8.0
+@version 1.8.1
 @author Se7enSky studio <info@se7ensky.com>
 ###
 
-###! jquery-badyl 1.8.0 http://github.com/Se7enSky/jquery-badyl###
+###! jquery-badyl 1.8.1 http://github.com/Se7enSky/jquery-badyl###
 
 plugin = ($) ->
 
