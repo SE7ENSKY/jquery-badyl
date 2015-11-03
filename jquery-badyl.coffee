@@ -172,6 +172,9 @@ plugin = ($) ->
 						else if @rebadylizeFromState is "unstable"
 							@switchState "unstable",
 								top: "#{@unstableTop}px"
+						else if windowScrollTop > @badylOffsetTop + @badylInnerHeight - windowHeight
+							@switchState "fixBottom"
+
 					when "top"
 						if windowScrollTop >= @badylOffsetTop + @badylInnerHeight - windowHeight
 							@switchState "fixBottom"
